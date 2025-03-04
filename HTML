@@ -1,0 +1,44 @@
+let totalCost = 0;
+
+// Function to add a meal
+function addMeal() {
+    const mealName = document.getElementById("meal-name").value;
+    const mealPrice = parseFloat(document.getElementById("meal-price").value);
+    const mealQuantity = parseInt(document.getElementById("meal-quantity").value);
+
+    if (mealName && mealPrice > 0 && mealQuantity > 0) {
+        // Calculate total meal cost
+        const mealTotalCost = mealPrice * mealQuantity;
+
+        // Create a new list item for the meal
+        const li = document.createElement("li");
+
+        // Add meal details to the list item
+        li.innerHTML = `${mealName} - $${mealPrice} x ${mealQuantity} = $${mealTotalCost.toFixed(2)} 
+                        <button class="delete" onclick="deleteMeal(this, ${mealTotalCost})">Delete</button>`;
+
+        // Append the new meal to the list
+        document.getElementById("meal-list").appendChild(li);
+
+        // Update the total cost
+        totalCost += mealTotalCost;
+        document.getElementById("total-cost").textContent = `$${totalCost.toFixed(2)}`;
+
+        // Clear the input fields
+        document.getElementById("meal-name").value = "";
+        document.getElementById("meal-price").value = "";
+        document.getElementById("meal-quantity").value = "";
+    } else {
+        alert("Please enter valid meal details.");
+    }
+}
+
+// Function to delete a meal
+function deleteMeal(button, mealCost) {
+    // Remove the meal from the list
+    button.parentElement.remove();
+
+    // Update the total cost
+    totalCost -= mealCost;
+    document.getElementById("total-cost").textContent = `$${totalCost.toFixed(2)}`;
+}
